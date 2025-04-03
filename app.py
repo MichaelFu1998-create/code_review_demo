@@ -2,7 +2,7 @@ import streamlit as st
 from transformers import pipeline
 
 # Load Hugging Face model (Small model to keep it light for demo)
-chatbot = pipeline("conversational", model="microsoft/DialoGPT-small")
+chatbot = pipeline("text-generation", model="openai-community/gpt2", device="cpu")
 
 # Streamlit App
 st.title("🤖 Local Chatbot with Hugging Face")
@@ -26,7 +26,8 @@ if user_input:
         st.write(user_input)
     
     # Get Hugging Face response
-    bot_reply = chatbot(user_input)["generated_text"]
+    bot_reply = chatbot(user_input)[0]["generated_text"]
+    
     st.session_state.messages.append({"role": "assistant", "content": bot_reply})
     
     with st.chat_message("assistant"):
